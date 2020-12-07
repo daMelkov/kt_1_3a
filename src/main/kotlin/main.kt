@@ -40,12 +40,15 @@ fun hoursToText(hours: Int): String {
 }
 
 fun endsVariant(number: Int): Int {
-    val lastLiteral = number.toString().takeLast(1).toInt()
-    val notInSecondDecade = number < 10 || number > 20
+    val stringValue = number.toString()
+    val lastLiteral = stringValue.takeLast(1).toInt()
+
+    val notInSecondDecade =
+        stringValue.length > 1 && (stringValue.takeLast(2).toInt() < 10 || stringValue.takeLast(2).toInt() > 20)
 
     return when {
-        lastLiteral == 1 && notInSecondDecade -> 1      // 1, 21, 31...
-        lastLiteral in 2..4 && notInSecondDecade -> 2   // 2, 3, 4, 22, 23, 24...
-        else -> 3
+        lastLiteral == 1 && notInSecondDecade -> 1      // 1, 21, 31,.. 101
+        lastLiteral in 2..4 && notInSecondDecade -> 2   // 2...4, 22...24,.. 102...104
+        else -> 3                                       // 5...20, 25...30, 35...40,.. 105...120
     }
 }
